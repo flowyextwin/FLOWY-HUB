@@ -1,179 +1,125 @@
--- FLOWY HUB | EXTWIN ESTUDIO
--- Interface demonstrativa sem Key
-local p = game.Players.LocalPlayer
-local pg = p:WaitForChild("PlayerGui")
-local old = pg:FindFirstChild("FLOWY_HUB")
-if old then old:Destroy() end
 
-local purple = Color3.fromRGB(183,122,255)
-local function new(c,parent,props)
-    local o = Instance.new(c)
-    for k,v in pairs(props) do o[k]=v end
-    o.Parent=parent
-    return o
-end
+-- FLOWY HUB V0.2 | EXTWIN ESTUDIO
+-- Sem Key
 
-local gui=new("ScreenGui",pg,{
-    Name="FLOWY_HUB",
-    ResetOnSpawn=false,
-    DisplayOrder=100
-})
+local player = game:GetService("Players").LocalPlayer
+local autoFarm = false
+local selectedWeapon = "Melee"
+local weapons = {"Melee", "Sword", "Gun", "Blox Fruit"}
+local index = 1
 
-local hub=new("Frame",gui,{
-    Size=UDim2.fromScale(.78,.82),
-    Position=UDim2.fromScale(.11,.09),
-    BackgroundColor3=Color3.fromRGB(14,9,23),
-    ClipsDescendants=true
-})
-new("UICorner",hub,{CornerRadius=UDim.new(0,12)})
-new("UIStroke",hub,{Color=purple,Transparency=.4})
+local gui = Instance.new("ScreenGui")
+gui.Name = "FLOWY_HUB"
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
 
-local function button(parent,text,size,pos)
-    local b=new("TextButton",parent,{
-        Text=text,Size=size,Position=pos,
-        BackgroundColor3=Color3.fromRGB(42,25,60),
-        BackgroundTransparency=.3,
-        TextColor3=Color3.fromRGB(235,220,250),
-        Font=Enum.Font.Gotham,
-        TextSize=13
-    })
-    new("UICorner",b,{CornerRadius=UDim.new(0,7)})
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.fromOffset(320,245)
+frame.Position = UDim2.new(0.5,-160,0.5,-122)
+frame.BackgroundColor3 = Color3.fromRGB(18,12,28)
+frame.Active = true
+frame.Draggable = true
+Instance.new("UICorner",frame)
+
+local title = Instance.new("TextLabel",frame)
+title.Size = UDim2.new(1,0,0,55)
+title.BackgroundTransparency = 1
+title.Text = "FLOWY HUB\nEXTWIN ESTUDIO"
+title.TextColor3 = Color3.fromRGB(183,122,255)
+title.TextSize = 20
+
+local function button(text,y)
+    local b = Instance.new("TextButton",frame)
+    b.Size = UDim2.new(0.9,0,0,38)
+    b.Position = UDim2.new(0.05,0,0,y)
+    b.BackgroundColor3 = Color3.fromRGB(65,30,105)
+    b.TextColor3 = Color3.new(1,1,1)
+    b.TextSize = 15
+    b.Text = text
+    Instance.new("UICorner",b)
     return b
 end
 
-local planet=new("Frame",hub,{
-    Size=UDim2.fromOffset(230,230),
-    Position=UDim2.fromScale(.61,.25),
-    BackgroundColor3=purple
-})
-new("UICorner",planet,{CornerRadius=UDim.new(1,0)})
-local gradient=new("UIGradient",planet,{
-    Color=ColorSequence.new(
-        Color3.fromRGB(90,42,135),
-        Color3.fromRGB(15,6,30)
-    )
-})
+local weapon = button("Select Weapon: Melee",60)
+local farm = button("Auto Farm: OFF",105)
+local stop = button("Stop All",150)
+local close = button("Close",195)
 
-local stars={}
-for i=1,55 do
-    stars[i]=new("Frame",hub,{
-        Size=UDim2.fromOffset(2,2),
-        Position=UDim2.fromScale(math.random(),math.random()),
-        BackgroundColor3=purple,
-        BorderSizePixel=0
-    })
-end
-
-local title=button(hub,"FLOWY HUB",UDim2.new(1,-80,0,38),UDim2.fromOffset(12,4))
-title.TextSize=25
-title.Font=Enum.Font.GothamBold
-title.BackgroundTransparency=1
-title.TextColor3=purple
-
-local sub=button(hub,"EXTWIN ✦ ESTUDIO",UDim2.new(1,0,0,23),UDim2.fromOffset(0,40))
-sub.BackgroundTransparency=1
-
-local nav=new("ScrollingFrame",hub,{
-    Size=UDim2.new(.28,-8,1,-105),
-    Position=UDim2.fromOffset(8,68),
-    BackgroundTransparency=.5,
-    BackgroundColor3=Color3.fromRGB(18,10,28),
-    ScrollBarThickness=3,
-    AutomaticCanvasSize=Enum.AutomaticSize.Y,
-    CanvasSize=UDim2.new()
-})
-new("UIListLayout",nav,{Padding=UDim.new(0,5)})
-
-local body=new("ScrollingFrame",hub,{
-    Size=UDim2.new(.72,-15,1,-105),
-    Position=UDim2.new(.28,7,0,68),
-    BackgroundTransparency=1,
-    ScrollBarThickness=3,
-    AutomaticCanvasSize=Enum.AutomaticSize.Y,
-    CanvasSize=UDim2.new()
-})
-
-local tabs={
-    {"Status & Server","Smart Priority","Resume Task"},
-    {"Config","Auto Haki","Auto Click","Farm Position"},
-    {"Skills","Skill Z","Skill X","Skill C","Skill V","Skill F"},
-    {"Main","Auto Farm Level","Auto Mastery","Auto Farm Nearest","Auto Farm Boss","Auto Boss Quest","Auto Second Sea","Auto Third Sea","Secret Quests","Auto Level 3000"},
-    {"Stats","Melee","Defense","Sword","Gun","Blox Fruit"},
-    {"Sub Farm","Beli","Fragments","Materials","Chests"},
-    {"Combat","Combat Settings"},
-    {"Weapons","Select Weapon","Weapon Requirements"},
-    {"Fighting Style","Select Style","Style Requirements"},
-    {"Fruits","Select Fruit","Fruit Mastery"},
-    {"Sea Event","Sea Beast","Terror Shark","Leviathan","Boat Settings"},
-    {"Island Events","Mirage","Kitsune","Prehistoric"},
-    {"Race","Race V2","Race V3","Race V4"},
-    {"Raid","Select Raid","Awakening"},
-    {"Dungeon","Select Dungeon"},
-    {"Fishing","Fishing Settings"},
-    {"Dojo","Dojo Quests"},
-    {"Shop","Select Item"},
-    {"Teleport","Select Island"},
-    {"ESP","Visual Settings"},
-    {"Quests","Select Quest","Secret Quests"},
-    {"Upgrades","Enchantments","Upgrade Items"},
-    {"Settings","Planet Rotation","Moving Stars","Pause Effects"}
-}
-
-local state={}
-local effects=true
-local current=tabs[4]
-
-local function render(tab)
-    current=tab
-    body:ClearAllChildren()
-    new("UIGridLayout",body,{
-        CellSize=UDim2.new(.48,0,0,42),
-        CellPadding=UDim2.new(.02,0,0,6)
-    })
-    for i=2,#tab do
-        local name=tab[i]
-        local b=button(body,name,UDim2.new(),UDim2.new())
-        local function refresh()
-            b.Text=(state[name] and "✓ " or "□ ")..name
-            b.TextColor3=state[name] and purple or Color3.new(1,1,1)
-        end
-        refresh()
-        b.Activated:Connect(function()
-            state[name]=not state[name]
-            if name=="Pause Effects" then
-                effects=not state[name]
-            end
-            refresh()
-        end)
-    end
-end
-
-for _,tab in ipairs(tabs) do
-    local b=button(nav,tab[1],UDim2.new(1,-5,0,32),UDim2.new())
-    b.Activated:Connect(function() render(tab) end)
-end
-
-local stop=button(hub,"Stop All",UDim2.fromOffset(85,28),UDim2.new(1,-95,1,-32))
-stop.TextColor3=Color3.fromRGB(255,80,100)
-stop.Activated:Connect(function()
-    table.clear(state)
-    effects=true
-    render(current)
+weapon.Activated:Connect(function()
+    index = index % #weapons + 1
+    selectedWeapon = weapons[index]
+    weapon.Text = "Select Weapon: "..selectedWeapon
 end)
 
-local close=button(hub,"X",UDim2.fromOffset(32,30),UDim2.new(1,-39,0,7))
-close.Activated:Connect(function() gui:Destroy() end)
+farm.Activated:Connect(function()
+    autoFarm = not autoFarm
+    farm.Text = "Auto Farm: "..(autoFarm and "ON" or "OFF")
+end)
 
-render(current)
+stop.Activated:Connect(function()
+    autoFarm = false
+    farm.Text = "Auto Farm: OFF"
+end)
+
+close.Activated:Connect(function()
+    autoFarm = false
+    gui:Destroy()
+end)
 
 task.spawn(function()
     while gui.Parent do
-        if effects then
-            gradient.Rotation=(gradient.Rotation+1)%360
-            for i,s in ipairs(stars) do
-                s.BackgroundTransparency=(math.sin(os.clock()*2+i)+1)/2
+        task.wait(0.2)
+
+        if autoFarm then
+            local success,err = pcall(function()
+                local char = player.Character
+                if not char then return end
+
+                local hum = char:FindFirstChildOfClass("Humanoid")
+                local root = char:FindFirstChild("HumanoidRootPart")
+                local enemies = workspace:FindFirstChild("Enemies")
+
+                if not hum or not root or not enemies or hum.Health <= 0 then
+                    return
+                end
+
+                for _,tool in ipairs(player.Backpack:GetChildren()) do
+                    if tool:IsA("Tool") and tool.ToolTip == selectedWeapon then
+                        hum:EquipTool(tool)
+                        break
+                    end
+                end
+
+                local target
+                local distance = math.huge
+
+                for _,npc in ipairs(enemies:GetChildren()) do
+                    local nh = npc:FindFirstChildOfClass("Humanoid")
+                    local nr = npc:FindFirstChild("HumanoidRootPart")
+
+                    if nh and nr and nh.Health > 0 then
+                        local d = (root.Position-nr.Position).Magnitude
+
+                        if d < distance then
+                            distance = d
+                            target = nr
+                        end
+                    end
+                end
+
+                if target then
+                    hum:MoveTo(target.Position)
+                    local tool = char:FindFirstChildOfClass("Tool")
+
+                    if tool and tool.ToolTip == selectedWeapon and distance < 10 then
+                        tool:Activate()
+                    end
+                end
+            end)
+
+            if not success then
+                warn("[FLOWY HUB]",err)
             end
         end
-        task.wait(.05)
     end
 end)
