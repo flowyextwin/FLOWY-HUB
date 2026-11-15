@@ -1,1 +1,12 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/flowyextwin/FLOWY-HUB/main/FLOWY_HUB.lua"))()
+local gui = Instance.new("ScreenGui")
+gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.fromScale(0.6, 0.6)
+frame.Position = UDim2.fromScale(0.2, 0.2)
+frame.BackgroundColor3 = Color3.fromRGB(24, 15, 35)
+local title = Instance.new("TextLabel", frame)
+title.Size = UDim2.fromScale(1, 0.2)
+title.BackgroundTransparency = 1
+title.Text = "FLOWY HUB - EXTWIN ESTUDIO"
+title.TextColor3 = Color3.fromRGB(183, 122, 255)
+title.TextScaled = true
